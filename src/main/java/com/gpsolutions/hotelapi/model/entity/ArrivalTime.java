@@ -1,11 +1,10 @@
 package com.gpsolutions.hotelapi.model.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.executable.ValidateOnExecution;
 import lombok.*;
 
 @Entity
-@Table(name = "arrival_time")
+@Table(name = "arrival_times")
 @Getter
 @Setter
 @AllArgsConstructor
