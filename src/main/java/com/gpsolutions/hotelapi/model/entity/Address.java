@@ -38,4 +38,9 @@ public class Address {
     @Column(name = "post_code", nullable = false)
     @NotBlank(message = "Post code is required")
     private String postCode;
+
+    public String getFullAddress() {
+        return String.format("%s %d, %s, %s, %s",
+                street, houseNumber, city, postCode, country);
+    }
 }

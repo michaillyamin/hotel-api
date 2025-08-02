@@ -17,9 +17,9 @@ public class ArrivalTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "check_in", nullable = false)
+    @Column(name = "check_in_time", nullable = false)
     private String checkIn;
 
-    @Column(name = "check_out", nullable = false)
+    @Column(name = "check_out_time", nullable = false)
     private String checkOut;
 }
