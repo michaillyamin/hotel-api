@@ -20,6 +20,6 @@ public class ArrivalTime {
     @Column(name = "check_in_time", nullable = false)
     private String checkIn;
 
-    @Column(name = "check_out_time", nullable = false)
+    @Column(name = "check_out_time")
     private String checkOut;
 }

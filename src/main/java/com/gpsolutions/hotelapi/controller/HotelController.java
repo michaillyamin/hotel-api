@@ -1,14 +1,14 @@
 package com.gpsolutions.hotelapi.controller;
 
+import com.gpsolutions.hotelapi.model.dto.CreateHotelRequest;
 import com.gpsolutions.hotelapi.model.dto.HotelDetailedDto;
 import com.gpsolutions.hotelapi.model.dto.HotelDto;
 import com.gpsolutions.hotelapi.service.HotelService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,5 +29,11 @@ public class HotelController {
     private ResponseEntity<HotelDetailedDto> getHotelById(@PathVariable Long id) {
         HotelDetailedDto hotelDetailedDto = hotelService.getHotelById(id);
         return ResponseEntity.ok(hotelDetailedDto);
+    }
+
+    @PostMapping("/hotels")
+    private ResponseEntity<HotelDto> createHotel(@Valid @RequestBody CreateHotelRequest createHotelRequest) {
+        HotelDto createdHotel = hotelService.createHotel(createHotelRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdHotel);
     }
 }

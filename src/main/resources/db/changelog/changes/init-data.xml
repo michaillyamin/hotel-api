@@ -14,7 +14,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="check_out_time" type="VARCHAR(10)">
-                <constraints nullable="false"/>
             </column>
         </createTable>
 
@@ -281,6 +280,13 @@
             <column name="hotel_id" value="3"/>
             <column name="amenity" value="Fitness center"/>
         </insert>
+    </changeSet>
+
+    <changeSet id="reset-sequences" author="Mikhail">
+        <sql>ALTER TABLE addresses ALTER COLUMN address_id RESTART WITH 4;</sql>
+        <sql>ALTER TABLE arrival_times ALTER COLUMN arrival_time_id RESTART WITH 4;</sql>
+        <sql>ALTER TABLE contacts ALTER COLUMN contacts_id RESTART WITH 4;</sql>
+        <sql>ALTER TABLE hotels ALTER COLUMN hotel_id RESTART WITH 4;</sql>
     </changeSet>
 
 </databaseChangeLog>
