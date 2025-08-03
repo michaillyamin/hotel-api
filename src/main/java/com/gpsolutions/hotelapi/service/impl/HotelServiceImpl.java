@@ -111,6 +111,23 @@ public class HotelServiceImpl implements HotelService {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
+    @Override
+    public List<HotelDto> searchHotels(String name, String brand, String city, String country, String amenity) {
+        List<HotelDto> searchedHotels = hotelRepository.findAll().stream()
+                .filter(hotel -> name == null || hotel.getName().toLowerCase()
+                        .contains(name.toLowerCase()))
+                .filter(hotel -> brand == null || hotel.getBrand().toLowerCase()
+                        .contains(brand.toLowerCase()))
+                .filter(hotel -> city == null || hotel.getAddress().getCity()
+                        .equalsIgnoreCase(city))
+                .filter(hotel -> amenity == null || amenity.isEmpty() || hotel.getAmenities() != null &&
+                        hotel.getAmenities().contains(amenity))
+                .map(hotelMapper::convertToHotelDto)
+                .toList();
+
+        return searchedHotels;
+    }
+
     private Map<String, Long> countHotelsGroupByBrand() {
         return hotelRepository.findAll().stream()
                 .filter(hotel -> hotel.getBrand() != null)

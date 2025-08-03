@@ -18,4 +18,6 @@ public interface HotelService {
     void addAmenitiesToHotel(Long hotelId, List<String> amenities);
 
     Map<String, Long> getHotelsHistogram(String param);
+
+    List<HotelDto> searchHotels(String name, String brand, String city, String country, String amenity);
 }

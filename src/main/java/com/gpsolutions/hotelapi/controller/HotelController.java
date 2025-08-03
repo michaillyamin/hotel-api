@@ -27,26 +27,36 @@ public class HotelController {
     }
 
     @GetMapping("/hotels/{id}")
-    private ResponseEntity<HotelDetailedDto> getHotelById(@PathVariable Long id) {
+    public ResponseEntity<HotelDetailedDto> getHotelById(@PathVariable Long id) {
         HotelDetailedDto hotelDetailedDto = hotelService.getHotelById(id);
         return ResponseEntity.ok(hotelDetailedDto);
     }
 
     @PostMapping("/hotels")
-    private ResponseEntity<HotelDto> createHotel(@Valid @RequestBody CreateHotelRequest createHotelRequest) {
+    public ResponseEntity<HotelDto> createHotel(@Valid @RequestBody CreateHotelRequest createHotelRequest) {
         HotelDto createdHotel = hotelService.createHotel(createHotelRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdHotel);
     }
 
     @PostMapping("/hotels/{id}/amenities")
-    private ResponseEntity<Void> addAmenitiesToHotel(@PathVariable Long id,
+    public ResponseEntity<Void> addAmenitiesToHotel(@PathVariable Long id,
                                                      @RequestBody List<String> amenities) {
         hotelService.addAmenitiesToHotel(id, amenities);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/histogram/{param}")
-    private ResponseEntity<Map<String, Long>> getHotelsHistogram(@PathVariable String param) {
+    public ResponseEntity<Map<String, Long>> getHotelsHistogram(@PathVariable String param) {
         return ResponseEntity.ok(hotelService.getHotelsHistogram(param));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<HotelDto>> searchHotels(@RequestParam(required = false) String name,
+                                                       @RequestParam(required = false) String brand,
+                                                       @RequestParam(required = false) String city,
+                                                       @RequestParam(required = false) String country,
+                                                       @RequestParam(required = false) String amenity) {
+        List<HotelDto> searchedHotels = hotelService.searchHotels(name, brand, city, country, amenity);
+        return ResponseEntity.ok(searchedHotels);
     }
 }
