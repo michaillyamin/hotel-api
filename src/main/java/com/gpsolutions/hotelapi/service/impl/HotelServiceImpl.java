@@ -17,7 +17,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,9 +40,9 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public HotelDetailedDto getHotelById(Long id) {
-        Hotel hotel = hotelRepository.findById(id)
-                .orElseThrow(() -> new HotelNotFoundException("Cannot find hotel with id: " + id));
+    public HotelDetailedDto getHotelById(Long hotelId) {
+        Hotel hotel = hotelRepository.findById(hotelId)
+                .orElseThrow(() -> new HotelNotFoundException("Cannot find hotel with id: " + hotelId));
         return hotelMapper.convertToHotelDetailedDto(hotel);
     }
 
@@ -69,5 +72,27 @@ public class HotelServiceImpl implements HotelService {
 
         Hotel savedHotel = hotelRepository.save(hotel);
         return hotelMapper.convertToHotelDto(savedHotel);
+    }
+
+    @Override
+    @Transactional
+    public void addAmenitiesToHotel(Long hotelId, List<String> amenities) {
+        Hotel hotel = hotelRepository.findById(hotelId)
+                .orElseThrow(() -> new HotelNotFoundException("Cannot find hotel with id: " + hotelId));
+
+
+        Set<String> currentAmenities = hotel.getAmenities();
+
+        Set<String> newAmenities = amenities.stream()
+                .filter(amenity -> amenity != null && !amenity.isEmpty())
+                .filter(amenity -> !currentAmenities.contains(amenity))
+                .collect(Collectors.toSet());
+
+        if (!newAmenities.isEmpty()) {
+            currentAmenities.addAll(newAmenities);
+            hotel.setAmenities(currentAmenities);
+        }
+
+        hotelRepository.save(hotel);
     }
 }

@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "hotels")
@@ -50,5 +50,5 @@ public class Hotel {
     @Column(name = "amenity")
     @ElementCollection
     @CollectionTable(name = "hotel_amenities", joinColumns = @JoinColumn(name = "hotel_id"))
-    private List<String> amenities;
+    private Set<String> amenities;
 }

@@ -80,6 +80,9 @@
             </column>
             <column name="amenity" type="VARCHAR(100)"/>
         </createTable>
+
+        <addUniqueConstraint tableName="hotel_amenities" columnNames="hotel_id, amenity"
+                             constraintName="id_hotel_amenity"/>
     </changeSet>
 
     <changeSet id="insert-data-1" author="Mikhail">

@@ -10,7 +10,9 @@ public interface HotelService {
 
     List<HotelDto> getAllHotels();
 
-    HotelDetailedDto getHotelById(Long id);
+    HotelDetailedDto getHotelById(Long hotelId);
 
     HotelDto createHotel(CreateHotelRequest request);
+
+    void addAmenitiesToHotel(Long hotelId, List<String> amenities);
 }
