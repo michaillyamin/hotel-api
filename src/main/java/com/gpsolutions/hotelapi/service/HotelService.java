@@ -5,6 +5,7 @@ import com.gpsolutions.hotelapi.model.dto.HotelDetailedDto;
 import com.gpsolutions.hotelapi.model.dto.HotelDto;
 
 import java.util.List;
+import java.util.Map;
 
 public interface HotelService {
 
@@ -15,4 +16,6 @@ public interface HotelService {
     HotelDto createHotel(CreateHotelRequest request);
 
     void addAmenitiesToHotel(Long hotelId, List<String> amenities);
+
+    Map<String, Long> getHotelsHistogram(String param);
 }

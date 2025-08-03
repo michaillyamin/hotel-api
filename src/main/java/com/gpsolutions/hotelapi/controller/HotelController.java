@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/property-view")
@@ -42,5 +43,10 @@ public class HotelController {
                                                      @RequestBody List<String> amenities) {
         hotelService.addAmenitiesToHotel(id, amenities);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/histogram/{param}")
+    private ResponseEntity<Map<String, Long>> getHotelsHistogram(@PathVariable String param) {
+        return ResponseEntity.ok(hotelService.getHotelsHistogram(param));
     }
 }

@@ -17,9 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -94,5 +92,61 @@ public class HotelServiceImpl implements HotelService {
         }
 
         hotelRepository.save(hotel);
+    }
+
+    @Override
+    public Map<String, Long> getHotelsHistogram(String param) {
+        Map<String, Long> resultHistogram = switch (param.toLowerCase()) {
+            case "brand" -> countHotelsGroupByBrand();
+            case "city" -> countHotelsGroupByCity();
+            case "country" -> countHotelsGroupByCountry();
+            case "amenities" -> countHotelsGroupByAmenities();
+            default ->
+                    throw new IllegalArgumentException("Invalid parameter: " + param
+                            + ". Only brand, city, country and amenities are allowed.");
+        };
+
+        return resultHistogram.entrySet().stream()
+                .filter(e -> e.getKey() != null)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    private Map<String, Long> countHotelsGroupByBrand() {
+        return hotelRepository.findAll().stream()
+                .filter(hotel -> hotel.getBrand() != null)
+                .collect(Collectors.groupingBy(
+                        Hotel::getBrand,
+                        Collectors.counting()
+                ));
+    }
+
+    private Map<String, Long> countHotelsGroupByCity() {
+        return hotelRepository.findAll().stream()
+                .filter(hotel -> hotel.getAddress().getCity() != null)
+                .collect(Collectors.groupingBy(
+                   hotel -> hotel.getAddress().getCity(),
+                   Collectors.counting()
+                ));
+    }
+
+    private Map<String, Long> countHotelsGroupByCountry() {
+        return hotelRepository.findAll().stream()
+                .filter(hotel -> hotel.getAddress().getCountry() != null)
+                .collect(Collectors.groupingBy(
+                   hotel -> hotel.getAddress().getCountry(),
+                   Collectors.counting()
+                ));
+    }
+
+    private Map<String, Long> countHotelsGroupByAmenities() {
+        return hotelRepository.findAll().stream()
+                .map(Hotel::getAmenities)
+                .filter(Objects::nonNull)
+                .flatMap(Set::stream)
+                .filter(amenity -> amenity != null && !amenity.isBlank())
+                .collect(Collectors.groupingBy(
+                        amenity -> amenity,
+                        Collectors.counting()
+                ));
     }
 }
