@@ -14,6 +14,7 @@ import com.gpsolutions.hotelapi.model.exception.HotelNotFoundException;
 import com.gpsolutions.hotelapi.repository.HotelRepository;
 import com.gpsolutions.hotelapi.service.HotelService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 @Transactional(readOnly = true)
 public class HotelServiceImpl implements HotelService {
 
@@ -32,6 +34,7 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public List<HotelDto> getAllHotels() {
+        log.info("Fetching all hotels");
         return hotelRepository.findAll().stream()
                 .map(hotelMapper::convertToHotelDto)
                 .toList();
@@ -39,6 +42,7 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public HotelDetailedDto getHotelById(Long hotelId) {
+        log.info("Fetching hotel with id: {}", hotelId);
         Hotel hotel = hotelRepository.findById(hotelId)
                 .orElseThrow(() -> new HotelNotFoundException("Cannot find hotel with id: " + hotelId));
         return hotelMapper.convertToHotelDetailedDto(hotel);
@@ -47,6 +51,7 @@ public class HotelServiceImpl implements HotelService {
     @Override
     @Transactional
     public HotelDto createHotel(CreateHotelRequest createHotelRequest) {
+        log.info("Creating hotel: {}", createHotelRequest.getHotelName());
         Hotel hotel = new Hotel();
         hotel.setName(createHotelRequest.getHotelName());
         hotel.setDescription(createHotelRequest.getDescription());
@@ -75,6 +80,7 @@ public class HotelServiceImpl implements HotelService {
     @Override
     @Transactional
     public void addAmenitiesToHotel(Long hotelId, List<String> amenities) {
+        log.info("Adding amenities: {}; to hotel with id: {}", amenities, hotelId);
         Hotel hotel = hotelRepository.findById(hotelId)
                 .orElseThrow(() -> new HotelNotFoundException("Cannot find hotel with id: " + hotelId));
 
@@ -96,6 +102,7 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public Map<String, Long> getHotelsHistogram(String param) {
+        log.info("Fetching hotels histogram with param: {}", param);
         Map<String, Long> resultHistogram = switch (param.toLowerCase()) {
             case "brand" -> countHotelsGroupByBrand();
             case "city" -> countHotelsGroupByCity();
@@ -113,6 +120,7 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public List<HotelDto> searchHotels(String name, String brand, String city, String country, String amenity) {
+        log.info("Searching hotels with parameters: name={}, brand={}, city={}, country={}, amenity={}", name, brand, city, country, amenity);
         List<HotelDto> searchedHotels = hotelRepository.findAll().stream()
                 .filter(hotel -> name == null || hotel.getName().toLowerCase()
                         .contains(name.toLowerCase()))
