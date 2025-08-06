@@ -1,0 +1,105 @@
+{
+	"info": {
+		"_postman_id": "51fa2d14-689e-4ca8-ae45-025ce859de07",
+		"name": "hotel-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25562113"
+	},
+	"item": [
+		{
+			"name": "get all hotels",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "get hotel by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8092/property-view/hotels/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8092",
+					"path": [
+						"property-view",
+						"hotels",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create hotel",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"DoubleTree by Hilton Minsk\",\r\n    \"description\": \"The DoubleTree by Hilton Hotel Minsk offers 193 luxurious rooms...\",\r\n    \"brand\": \"Hilton\",\r\n    \"address\": {\r\n        \"houseNumber\": 9,\r\n        \"street\": \"Pobediteley Avenue\",\r\n        \"city\": \"Minsk\",\r\n        \"country\": \"Belarus\",\r\n        \"postCode\": \"220004\"\r\n    },\r\n    \"contacts\": {\r\n        \"phone\": \"+375 17 309-80-00\",\r\n        \"email\": \"doubletreeminsk.info@hilton.com\"\r\n    },\r\n    \"arrivalTime\": {\r\n        \"checkIn\": \"14:00\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8092/property-view/hotels",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8092",
+					"path": [
+						"property-view",
+						"hotels"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add amenities to hotel",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "get hotels histogram",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8092/property-view/histogram/brand",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8092",
+					"path": [
+						"property-view",
+						"histogram",
+						"brand"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search hotels",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
